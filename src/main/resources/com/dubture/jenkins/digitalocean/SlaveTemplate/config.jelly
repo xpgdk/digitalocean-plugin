@@ -46,6 +46,14 @@
             <f:textbox default="10" />
         </f:entry>
 
+        <f:entry title="Remote user" field="remoteUser">
+            <f:textbox default="root" />
+        </f:entry>
+
+        <f:entry title="Remote path" field="remotePath">
+            <f:textbox default="/jenkins" />
+        </f:entry>
+
         <f:entry title="">
             <div align="right">
                 <f:repeatableDeleteButton />

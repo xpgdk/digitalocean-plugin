@@ -98,6 +98,16 @@ public class SlaveTemplate implements Describable<SlaveTemplate> {
      */
     private final String regionId;
 
+    /**
+     * The remote user to use.
+     */
+    private final String remoteUser;
+
+    /**
+     * The remote path to use for the Jenkins deployment.
+     */
+    private final String remotePath;
+
     private transient Set<LabelAtom> labelSet;
 
     protected transient Cloud parent;
@@ -112,9 +122,11 @@ public class SlaveTemplate implements Describable<SlaveTemplate> {
      * @param regionId the region e.g. "nyc1"
      * @param idleTerminationInMinutes how long to wait before destroying a slave
      * @param labelString the label for this slave
+     * @param remoteUser remote user
+     * @param remotePath remote path
      */
     @DataBoundConstructor
-    public SlaveTemplate(String imageId, String sizeId, String regionId, String idleTerminationInMinutes, String labelString) {
+    public SlaveTemplate(String imageId, String sizeId, String regionId, String idleTerminationInMinutes, String labelString, String remoteUser, String remotePath) {
         LOGGER.log(Level.INFO, "Creating SlaveTemplate with imageId = {0}, sizeId = {1}, regionId = {2}", new Object[] { imageId, sizeId, regionId});
         this.imageId = imageId;
         this.sizeId = sizeId;
@@ -123,6 +135,8 @@ public class SlaveTemplate implements Describable<SlaveTemplate> {
         this.idleTerminationInMinutes = Integer.parseInt(idleTerminationInMinutes);
         this.labelString = labelString;
         this.labels = Util.fixNull(labelString);
+        this.remoteUser = remoteUser;
+        this.remotePath = remotePath;
 
         readResolve();
     }
@@ -187,8 +201,8 @@ public class SlaveTemplate implements Describable<SlaveTemplate> {
                 "Computer running on DigitalOcean with name: " + droplet.getName(),
                 droplet.getId(),
                 privateKey,
-                "/jenkins",
-                "root",
+                remotePath,
+                remoteUser,
                 1,
                 idleTerminationInMinutes,
                 Node.Mode.NORMAL,
@@ -340,5 +354,13 @@ public class SlaveTemplate implements Describable<SlaveTemplate> {
 
     public int getIdleTerminationInMinutes() {
         return idleTerminationInMinutes;
+    }
+
+    public String getRemoteUser() {
+        return remoteUser;
+    }
+
+    public String getRemotePath() {
+        return remotePath;
     }
 }
