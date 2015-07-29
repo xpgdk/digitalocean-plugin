@@ -408,9 +408,11 @@ public class Cloud extends AbstractCloudImpl {
             BufferedReader br = new BufferedReader(new StringReader(value));
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.equals("-----BEGIN RSA PRIVATE KEY-----"))
+                if (line.equals("-----BEGIN RSA PRIVATE KEY-----") ||
+                    line.equals("-----BEGIN DSA PRIVATE KEY-----"))
                     hasStart=true;
-                if (line.equals("-----END RSA PRIVATE KEY-----"))
+                if (line.equals("-----END RSA PRIVATE KEY-----") ||
+                    line.equals("-----END DSA PRIVATE KEY-----"))
                     hasEnd=true;
             }
             if(!hasStart)
