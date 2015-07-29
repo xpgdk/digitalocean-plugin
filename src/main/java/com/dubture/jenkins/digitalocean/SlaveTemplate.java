@@ -244,7 +244,7 @@ public class SlaveTemplate implements Describable<SlaveTemplate> {
             ListBoxModel model = new ListBoxModel();
 
             for (Image image : availableSizes) {
-                model.add(image.getDistribution() + " " + image.getName(), image.getSlug());
+                model.add(image.getDistribution() + " " + image.getName(), image.getId().toString());
             }
 
             return model;
